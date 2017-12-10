@@ -13,7 +13,7 @@
   "dependencies": {
     "babel-register": "^6.26.0",
     "discord.js": "^11.2.1",
-    "logger": "0.0.1",
+    "dotenv": "^4.0.0",
     "winston": "^2.4.0"
   },
   "devDependencies": {
