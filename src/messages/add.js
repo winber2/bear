@@ -1,14 +1,42 @@
 import axios from 'axios';
 import fs from 'fs';
+import { connectDB } from '../utils.js';
 
 export default function add(match, message) {
   const args = match[2].trim().split(' ');
-  const group = args[0];
+  const input = args[0];
   const data = args.slice(1);
 
+  switch (input) {
+    case 'group':
+      createGroup(data[0].toLowerCase(), message);
+      break;
+    default:
+      addToGroup(input, data, message);
+  }
+}
+
+function createGroup(group, message) {
+  const db = connectDB();
+  if (db.groups.includes(group)) {
+    message.channel.send(`${group} already exists`);
+    return;
+  }
+  db.groups.push(group);
+  db[group] = [];
+
+  fs.writeFileSync(
+    process.env.DATABASE_DIR,
+    JSON.stringify(db),
+    err => console.log(err)
+  );
+  message.channel.send(`Group ${group} created`)
+}
+
+function addToGroup(group, data, message) {
   // Using json file as database because I am fucking lazy and
   // why would I even need a real database for this shit anyways
-  const db = JSON.parse(fs.readFileSync(process.env.DATABASE_DIR));
+  const db = connectDB();
   // const db = require(process.env.DATABASE_DIR)
   const { groups: validGroups } = db;
 
@@ -38,8 +66,13 @@ export default function add(match, message) {
     });
 
     axios.all(requests).then(() => {
+      // modify .json database
       goodURLs.forEach(url => db[group].push(url));
-      fs.writeFileSync(process.env.DATABASE_DIR, JSON.stringify(db), err => console.log(err));
+      fs.writeFileSync(
+        process.env.DATABASE_DIR,
+        JSON.stringify(db),
+        err => console.log(err)
+      );
 
       const warning = hasDuplicates ? '' : ', duplicates were discarded';
       message.channel.send(`Saved all sources to ${group}${warning}`);

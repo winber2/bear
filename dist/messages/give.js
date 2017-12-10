@@ -4,24 +4,34 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = give;
+
+var _utils = require('../utils.js');
+
 function give(match, message) {
   var args = match[2].trim().split(' ');
-  var command = args[0].toLowerCase();
+  var input = args[0].toLowerCase();
   var remainingArgs = args.slice(1);
 
-  switch (command) {
+  switch (input) {
     case 'ava':
       giveAvatar(remainingArgs, message);
       break;
-    case 'bear':
-      giveBear(message);
-      break;
     default:
+      givePicture(input, message);
       return;
   }
 }
 
-function giveBear(message) {}
+function givePicture(group, message) {
+  var db = (0, _utils.connectDB)();
+  var ostensibleAnimePictures = db[group];
+
+  if (ostensibleAnimePictures) {
+    message.channel.send('', {
+      files: [(0, _utils.random)(ostensibleAnimePictures)]
+    });
+  }
+}
 
 function giveAvatar(args, message) {
   var users = [];

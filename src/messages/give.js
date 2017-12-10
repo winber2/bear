@@ -1,22 +1,29 @@
+import { connectDB, random } from '../utils.js';
+
 export default function give(match, message) {
   const args = match[2].trim().split(' ');
-  const command = args[0].toLowerCase();
+  const input = args[0].toLowerCase();
   const remainingArgs = args.slice(1);
 
-  switch (command) {
+  switch (input) {
     case 'ava':
       giveAvatar(remainingArgs, message);
       break;
-    case 'bear':
-      giveBear(message);
-      break;
     default:
+      givePicture(input, message);
       return;
   }
 }
 
-function giveBear(message) {
+function givePicture(group, message) {
+  const db = connectDB();
+  const ostensibleAnimePictures = db[group];
 
+  if (ostensibleAnimePictures) {
+    message.channel.send('', {
+      files: [ random(ostensibleAnimePictures) ]
+    })
+  }
 }
 
 function giveAvatar(args, message) {
