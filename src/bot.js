@@ -1,6 +1,6 @@
 import Discord from 'discord.js';
 import Logger from 'logger';
-import { produce } from './give.js';
+import { produce } from './messages/messages.js';
 
 const logger = Logger.createLogger('./dev.log');
 const client = new Discord.Client();

@@ -8,7 +8,7 @@ var _logger = require('logger');
 
 var _logger2 = _interopRequireDefault(_logger);
 
-var _give = require('./give.js');
+var _messages = require('./messages/messages.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -20,7 +20,7 @@ client.on('ready', function () {
 });
 
 client.on('message', function (autism) {
-  return (0, _give.produce)(autism);
+  return (0, _messages.produce)(autism);
 });
 
 client.login('Mzg5MDEzNDYyNzM2NDM3MjQ5.DQ3dew.9NVs94BVEBzK107Wst09I5RnoU8');
