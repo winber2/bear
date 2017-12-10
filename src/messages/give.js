@@ -1,15 +1,22 @@
-export function give(match, message) {
+export default function give(match, message) {
   const args = match[2].trim().split(' ');
   const command = args[0].toLowerCase();
-  const remainingArgs = args.splice(1, args.length);
+  const remainingArgs = args.slice(1);
 
   switch (command) {
     case 'ava':
       giveAvatar(remainingArgs, message);
       break;
+    case 'bear':
+      giveBear(message);
+      break;
     default:
       return;
   }
+}
+
+function giveBear(message) {
+
 }
 
 function giveAvatar(args, message) {
@@ -31,7 +38,7 @@ function giveAvatar(args, message) {
         member.displayName.toLowerCase() === userStr.toLowerCase()
       );
 
-      // Discord a member object which has basic 'user' properties nested inside
+      // Discord returns a member object which has basic 'user' properties nested inside
       user = member ? member.user : null;
     } else {
       user = arg;

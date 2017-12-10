@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "aws-sdk": "^2.167.0",
+    "axios": "^0.17.1",
     "babel-register": "^6.26.0",
     "discord.js": "^11.2.1",
     "dotenv": "^4.0.0",

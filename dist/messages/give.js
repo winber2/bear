@@ -3,20 +3,25 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.give = give;
+exports.default = give;
 function give(match, message) {
   var args = match[2].trim().split(' ');
   var command = args[0].toLowerCase();
-  var remainingArgs = args.splice(1, args.length);
+  var remainingArgs = args.slice(1);
 
   switch (command) {
     case 'ava':
       giveAvatar(remainingArgs, message);
       break;
+    case 'bear':
+      giveBear(message);
+      break;
     default:
       return;
   }
 }
+
+function giveBear(message) {}
 
 function giveAvatar(args, message) {
   var users = [];
@@ -40,7 +45,7 @@ function giveAvatar(args, message) {
         return member.displayName.toLowerCase() === userStr.toLowerCase();
       });
 
-      // Discord a member object which has basic 'user' properties nested inside
+      // Discord returns a member object which has basic 'user' properties nested inside
       user = member ? member.user : null;
     } else {
       user = arg;

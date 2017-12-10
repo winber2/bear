@@ -1,9 +1,13 @@
-import { give } from './give.js';
+import dailyBear from './bear.js';
+import give from './give.js';
+import add from './add.js';
 
-const pingRgx = /^(!ping)$/;
+const dailyBearRgx = /^(daily bear)$/i;
 const giveRgx = /^(give)(.*)$/i;
+const addRgx = /^(add)(.*)$/i;
+const pingRgx = /^(!ping)$/;
 
-export function produce(message) {
+export default function produce(message) {
   const match = extract(message);
   if (!match) return;
 
@@ -15,12 +19,22 @@ export function produce(message) {
     case 'give':
       give(match, message);
       break;
+    case 'add':
+      add(match, message);
+      break;
+    case 'daily bear':
+      dailyBear(message);
+      break;
+    default:
+      return;
   }
 }
 
 function extract(message) {
   return (
     message.content.match(pingRgx) ||
-    message.content.match(giveRgx)
+    message.content.match(giveRgx) ||
+    message.content.match(dailyBearRgx) ||
+    message.content.match(addRgx)
   )
 }

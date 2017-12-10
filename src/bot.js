@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import { produce } from './messages/messages.js';
+import produce from './messages/messages.js';
 require('dotenv').config();
 
 const client = new Discord.Client();
