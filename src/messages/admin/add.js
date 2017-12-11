@@ -1,8 +1,10 @@
 import axios from 'axios';
 import fs from 'fs';
-import { connectDB, writeDB } from '../../utils.js';
+import { connectDB, writeDB, isAdmin, isSuperAdmin } from '../../utils.js';
 
 export default function add(match, message) {
+  if (!isAdmin(message)) return;
+
   const args = match[2].trim().split(' ');
   const input = args[0];
   const data = args.slice(1);
@@ -11,9 +13,21 @@ export default function add(match, message) {
     case 'group':
       createGroup(data[0].toLowerCase(), message);
       break;
+    case 'admin':
+      addAdmin(message);
+      break;
     default:
       addToGroup(input, data, message);
   }
+}
+
+// add new admin user
+function addAdmin(message) {
+  const db = connectDB();
+  message.mentions.users.forEach(user => {
+    db.admins[user.id] = true;
+  })
+  writeDB(db);
 }
 
 // Create new collection of pictures
@@ -37,8 +51,6 @@ function createGroup(group, message) {
 }
 
 function addToGroup(group, data, message) {
-  // Using json file as database because I am fucking lazy and
-  // why would I even need a real database for this shit anyways
   const db = connectDB();
   const { groups: validGroups } = db;
 
