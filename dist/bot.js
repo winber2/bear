@@ -4,9 +4,9 @@ var _discord = require('discord.js');
 
 var _discord2 = _interopRequireDefault(_discord);
 
-var _messages = require('./messages/messages.js');
+var _index = require('./messages/index.js');
 
-var _messages2 = _interopRequireDefault(_messages);
+var _index2 = _interopRequireDefault(_index);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -19,7 +19,7 @@ client.on('ready', function () {
 });
 
 client.on('message', function (autism) {
-  return (0, _messages2.default)(autism);
+  return (0, _index2.default)(autism);
 });
 
 client.login(process.env.TOKEN);

@@ -1,33 +1,10 @@
-import { connectDB, random } from '../utils.js';
+import { connectDB, random } from '../../utils.js';
 
-export default function give(match, message) {
+export default function ava(match, message) {
   const args = match[2].trim().split(' ');
-  const input = args[0].toLowerCase();
-  const remainingArgs = args.slice(1);
-
-  switch (input) {
-    case 'ava':
-      giveAvatar(remainingArgs, message);
-      break;
-    default:
-      givePicture(input, message);
-      return;
-  }
-}
-
-function givePicture(group, message) {
-  const db = connectDB();
-  const ostensibleAnimePictures = db[group];
-
-  if (ostensibleAnimePictures) {
-    message.channel.send('', {
-      files: [ random(ostensibleAnimePictures) ]
-    })
-  }
-}
-
-function giveAvatar(args, message) {
   const users = [];
+
+  // create list of users to check
   message.mentions.users.forEach(user => users.push(user));
   args.forEach(user => {
     if (!user || !/^\w/.test(user[0])) return;
